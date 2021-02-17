@@ -7,7 +7,7 @@ output:
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
 author: "Fabio"
-date: "16 February, 2021"
+date: "17 February, 2021"
 excerpt: "Updating Mean Trophic levels of a genera from FishBase"
 layout: post
 categories:
@@ -15,8 +15,6 @@ categories:
   - Jekyll
 
 ---
-
-# Calculating Mean Trophic Leves of a genera from FishBase
 
 I recently had the necessity to update the Trophic Levels on our Rocky
 Reefs Monitoring database. Thus, i wondered if an automatic way to

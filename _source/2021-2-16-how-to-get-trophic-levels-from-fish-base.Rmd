@@ -24,7 +24,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Calculating Mean Trophic Leves of a genera from FishBase
 
 I recently had the necessity to update the Trophic Levels on our Rocky Reefs Monitoring database. Thus, i wondered if an automatic way to access FishBase existed. It obviously does exist in the magnificent package [rfishbase](https://github.com/ropensci/rfishbase).
 
