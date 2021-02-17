@@ -1,10 +1,10 @@
 ---
 layout: post
-title: You're up and running!
+title: Hello R-Club
 ---
 
-Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).
+This is the first official post of the CBMC-GCMP R-Club! 
 
-![_config.yml]({{ site.baseurl }}/images/config.png)
+We will be sharing many code, results, visualizations and cool marine science news!
 
-The easiest way to make your first post is to edit this one. Go into /_posts/ and update the Hello World markdown file. For more instructions head over to the [Jekyll Now repository](https://github.com/barryclark/jekyll-now) on GitHub.
+
