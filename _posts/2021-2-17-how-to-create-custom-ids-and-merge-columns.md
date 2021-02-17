@@ -1,5 +1,5 @@
 ---
-title: "Updating Mean Trophic levels of a genera from FishBase"
+title: "Creating cusom IDs and merging data easily"
 output:
   md_document:
     variant: gfm
@@ -8,13 +8,28 @@ knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
 author: "Fabio"
 date: "17 February, 2021"
-excerpt: "Updating Mean Trophic levels of a genera from FishBase"
+excerpt: "Creating an unique ID to match strings in two data frames with different rows and with no matching names"
 layout: post
 categories:
   - R Markdown
   - Jekyll
 
 ---
+
+## The problem
+
+These two dataset can be easily merged using IDs, but it can be hard to
+merge them without it, and using just the names. This as we saw in
+class, creates other unwanted columns. Let’s imagine the common scenario
+where we **DON’T** have a numeric ID. How do we create them?
+
+The process is as follow:
+
+1.  We manually create an ID for the `reef` table;
+2.  We match the reef names which generates a vector of numbers;
+3.  We create a new ID column called `IDReef` in the `data_all` dataset;
+4.  We merge the two datasets by ID;
+5.  **Celebrate!**
 
 ## Loading data and libraries
 
@@ -32,21 +47,6 @@ data_all <- read.csv("https://raw.githubusercontent.com/CBMC-GCMP/CBMC-GCMP.gith
 # Loading reef data with protection_status and coordinates
 reef <- read.csv("https://raw.githubusercontent.com/CBMC-GCMP/CBMC-GCMP.github.io/master/_data/reef_list.csv")
 ```
-
-## The problem
-
-These two dataset can be easily merged using IDs, but it can be hard to
-merge them without it, and using just the names. This as we saw in
-class, creates other unwanted columns. Let’s imagine the common scenario
-where we **DON’T** have a numeric ID. How do we create them?
-
-The process is as follow:
-
-1.  We manually create an ID for the `reef` table;
-2.  We match the reef names which generates a vector of numbers;
-3.  We create a new ID column called `IDReef` in the `data_all` dataset;
-4.  We merge the two datasets by ID;
-5.  **Celebrate!**
 
 ## Step 1: creating an ID in the `reef` dataset
 
