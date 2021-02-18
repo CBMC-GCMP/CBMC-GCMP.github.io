@@ -1,0 +1,346 @@
+---
+title: "Data wrangling"
+author: "Fabio Favoretto"
+date: "`r Sys.Date()`"
+output: 
+        ioslides_presentation:
+                logo: "figs/cropped-rstudio.png"
+                widescreen: true
+                incremental: true
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(eval=FALSE, warning = FALSE, message = FALSE)
+```
+## References
+https://r4ds.had.co.nz/transform.html
+
+https://moderndive.com/4-wrangling.html
+
+##  [Tidyverse](cheatsheets/data-transformation.pdf)
+```{r, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE, out.width="80%", fig.align='center'}
+
+library(memer)
+meme_get("DistractedBf") %>% 
+      meme_text_distbf("tidyverse", "new R users", "base R")
+
+```
+
+
+## Prerequisites
+```{r, eval=TRUE}
+# install.packages("tidyverse")
+library(tidyverse)
+
+# install.packages(c("nycflights13", "tidyverse"))
+
+library(tidyverse)
+library(nycflights13)
+
+```
+
+
+## nycflights13
+
+Contains all flights departed from NYC in 2013. 
+
+```{r, eval=TRUE}
+
+head(flights)
+
+```
+
+## Types of data
+
+- `int` stands for integers
+- `dbl` stands for doubles or real numbers
+- `chr` stands for character vectors, or strings
+- `dttm` stands for date-times
+- `lgl` stands for logical vectors
+- `fctr` stands for factors
+- `date` stands for dates
+
+
+## `dplyr` basics
+
+- Pick observations by their values (`filter()`).
+- Reorder the rows (`arrange()`).
+- Pick variables by their names (`select()`).
+- Create new variables with functions of existing variables (`mutate()`).
+- Collapse many values down to a single summary (`summarise()`).
+
+## Filter rows with `filter()`
+
+```{r}
+filter(flights, month == 1, day == 1)
+
+# if you want to save
+
+jan1 <- filter(flights, month == 1, day ==1)
+
+# with the parenthesis you can also show the result
+(dec25 <- filter(flights, month == 12, day == 25))
+
+```
+
+
+## Standard logical operators
+
+- `>`
+- `>=`
+- `<`
+- `<=`
+- `!=` (not equal) 
+- `==` (equal)
+
+## Difference between `=` and `==`
+
+```{r}
+
+filter(flights, month = 1)
+
+#> Error: `month` (`month = 1`) must not be named, do you need `==`?
+
+```
+
+
+## Logical operators
+
+![](figs/booleans.jpg)
+
+## Logical operators
+
+You can combine multiple arguments to `filter()`
+
+- `&` is “and”
+- `|` is “or”
+- `!` is “not”
+
+## Demonstration
+
+Find all flights that departed in November or December
+
+```{r}
+filter(flights, month == 11 | month == 12)
+
+# or
+
+filter(flights, month %in% c(11, 12))
+```
+
+
+Find flights that weren’t delayed (on arrival or departure) by more than two hours
+
+```{r}
+filter(flights, !(arr_delay > 120 | dep_delay > 120))
+filter(flights, arr_delay <= 120, dep_delay <= 120)
+```
+
+
+## Exercises
+
+Find all flights that
+
+1. Had an arrival delay of two or more hours
+2. Flew to Houston (IAH or HOU)
+3. Were operated by United, American, or Delta
+4. Departed in summer (July, August, and September)
+5. Arrived more than two hours late, but didn’t leave late
+6. Were delayed by at least an hour, but made up over 30 minutes in flight
+7. Departed between midnight and 6am (inclusive)
+
+
+## Solutions
+
+```{r}
+filter(flights, arr_delay >= 120)
+filter(flights, dest == "IAH" | dest == "HOU")
+filter(flights, dest %in% c("IAH", "HOU"))
+filter(flights, carrier %in% c("AA", "DL", "UA"))
+filter(flights, month >= 7, month <= 9)
+filter(flights, month %in% 7:9)
+filter(flights, month == 7 | month == 8 | month == 9)
+filter(flights, arr_delay > 120, dep_delay <= 0)
+filter(flights, dep_delay >= 60, dep_delay - arr_delay > 30)
+filter(flights, dep_time <= 600 | dep_time == 2400)
+
+```
+
+
+## Arrange rows with `arrange()`
+
+It changes the order of the rows.
+
+```{r}
+arrange(flights, year, month, day)
+
+#Use `desc()` to reorder in descending order
+arrange(flights, desc(dep_delay))
+
+```
+
+
+## Exercises
+
+- Sort flights to find the most delayed flights. Find the flights that left earliest.
+
+- Sort flights to find the fastest flights.
+
+- Which flights travelled the longest? Which travelled the shortest?
+
+## Solutions
+
+```{r}
+# 1
+arrange(flights, desc(dep_delay))
+arrange(flights, dep_delay)
+
+# 2 By “fastest” flights, 
+#I assume that the question refers to 
+#the flights with the shortest time in the air.
+
+arrange(flights, air_time)
+
+# 2 However, “fastest” could also be interpreted 
+#as referring to the average air speed. 
+#We can find these flights by sorting by the result 
+#of distance / air_time * 60, 
+#where the 60 is to convert the expression 
+#to miles per hour since air_time is in minutes.
+
+arrange(flights, distance / air_time * 60)
+
+# 3 
+arrange(flights, desc(distance))
+arrange(flights, distance)
+
+```
+
+
+## Select columns with `select()`
+
+
+```{r}
+select(flights, year, month, day)
+select(flights, year:day)
+select(flights, -(year:day))
+
+```
+
+## You can use `select()` to rename
+
+```{r}
+
+rename(flights, tail_num = tailnum)
+
+# or to simply move/order columns
+
+select(flights, time_hour, air_time, everything())
+
+```
+
+## Add new variables with `mutate()`
+
+`mutate()` always adds new columns at the end of your dataset. 
+
+```{r}
+flights_slm <- select(flights, 
+                      year:day, 
+                      ends_with("delay"),
+                      distance,
+                      air_time
+                      )
+
+mutate(flights_slm, 
+       gain = dep_delay - arr_delay, 
+       speed = distance / air_time * 60
+       )
+```
+
+## `transmute()`
+
+Can be used to keep only the new variables that you want
+
+```{r}
+transmute(flights,
+  gain = dep_delay - arr_delay,
+  hours = air_time / 60,
+  gain_per_hour = gain / hours
+)
+```
+
+
+## Grouped summaries with `summaries()`
+
+```{r}
+
+summarise(flights, delay = mean(dep_delay, na.rm = TRUE))
+
+# we'll come back to what `na.rm = TRUE` does
+```
+
+## `summaries()` with `group_by()`
+
+```{r}
+by_day <- group_by(flights, year, month, day)
+summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
+```
+
+
+## Combining multiple operations 
+Imagine that we want to explore the relationship between the distance and average delay for each location. Using what you know about `dplyr`, you might write code like this:
+
+```{r}
+by_dest <- group_by(flights, dest)
+delay <- summarise(by_dest,
+  count = n(),
+  dist = mean(distance, na.rm = TRUE),
+  delay = mean(arr_delay, na.rm = TRUE)
+)
+delay <- filter(delay, count > 20, dest != "HNL")
+
+```
+
+## Combining multiple operations
+
+```{r}
+
+h(g(f(x)))
+
+```
+
+## Combining using %>% 
+
+```{r}
+
+x %>% 
+  f() %>% 
+  g() %>% 
+  h()
+```
+
+
+## If you use %>% 
+
+```{r}
+delays <- flights %>% 
+  group_by(dest) %>% 
+  summarise(
+    count = n(),
+    dist = mean(distance, na.rm = TRUE),
+    delay = mean(arr_delay, na.rm = TRUE)
+  ) %>% 
+  filter(count > 20, dest != "HNL")
+```
+
+
+# Fishing effort excercise
+
+## Test yourself
+
+
+- Find which **region** has the highest mean fishing effort in the Gulf
+- Find which **site** has the highest mean fishing effort in the Gulf
+- Which **site** has the lowest mean fishing effort?
+- Find which **region** has the highest standard deviation in fishing effort in the Gulf
+- Find which **site** has the highest number of pangas inside the highest **region** for fishing effort

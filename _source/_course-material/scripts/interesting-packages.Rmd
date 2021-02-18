@@ -1,0 +1,18 @@
+---
+title: "Interesting Packages"
+author: "Fabio Favoretto"
+date: "4/20/2019"
+output: html_document
+---
+
+- [ggplot2](https://ggplot2.tidyverse.org/)
+- [Lattice](https://www.statmethods.net/advgraphs/trellis.html)
+- [Highcharter](http://jkunst.com/highcharter/)
+- [Leaflet](https://rstudio.github.io/leaflet/)
+- [rcolorbrewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3)
+- [Plotly](https://plotly-r.com/)
+- [dygraphs](http://dygraphs.com/)
+- [gghighlight](https://cran.r-project.org/web/packages/gghighlight/vignettes/gghighlight.html)
+- [noaaoceans](https://cran.r-project.org/web/packages/noaaoceans/vignettes/getting_started.html)
+- [rosr](https://github.com/pzhaonet/rosr)
+- [gratia](https://gavinsimpson.github.io/gratia/)

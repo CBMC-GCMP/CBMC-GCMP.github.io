@@ -1,0 +1,146 @@
+---
+title: "Workflow basics"
+author: "Fabio Favoretto"
+date: "`r Sys.Date()`"
+output: 
+        ioslides_presentation:
+                logo: "figs/cropped-rstudio.png"
+                widescreen: true
+                incremental: true
+---
+
+## References
+
+- https://r4ds.had.co.nz/workflow-basics.html
+- https://r4ds.had.co.nz/workflow-scripts.html
+
+
+# Coding basics 
+```{r, include=FALSE}
+knitr::opts_chunk$set(eval=FALSE, warning = FALSE, message = FALSE)
+```
+
+
+## You can use R as a calculator: 
+```{r}
+1 / 200 * 30
+
+(59 + 73 + 2) / 3
+
+sin(pi / 2)
+
+```
+
+You can create new objects with the symbol `<-`
+Press `alt` + `-` in Windows as a shortcut
+
+```{r}
+x <- 3 * 4
+
+object_name <- value
+
+```
+
+
+## Importance in names: 
+
+i_use_snake_case
+
+otherPeopleUseCamelCase
+
+some.people.use.perionds
+
+And_aFew.People_RENOUNCEconvetion
+
+use TAB to autocomplete the name
+
+
+## let's make another one
+```{r}
+r_rocks <- 2 ^ 3
+
+r_rock
+R_rocks
+
+my_variable <- 10
+my_variable -5
+
+```
+
+
+## More stuff
+There’s an implied contract between you and R: it will do the tedious computation for you, but in return, you must be completely precise in your instructions. 
+
+Typos matter. Case matters.
+
+## Calling functions 
+
+function_name(arg1 = val1, arg2 = val2, ...)
+
+we try using seq() which makes regular sequences of numbers
+
+try also using TAB completion
+
+```{r}
+seq()
+seq(1, 10)
+#seq(1, 10
+
+    #R wants to help you if you miss something.
+
+y <- seq(1, 10, length.out = 5)
+
+```
+
+try using TAB completions inside a function
+
+## Similarly, you can use the `c()` function
+
+```{r}
+x <- c(1:8, 75, 34)
+x/2
+```
+
+
+# Practice
+
+## Why the code below does not work?
+
+```{r}
+my_variable <- 10
+my_varıable
+
+```
+
+
+## Why the code below does not work?
+
+```{r}
+x <- (2, 4, 5, 6, 7)
+
+```
+
+
+## Why the code below does not work?
+
+```{r}
+myname <- Fabio
+```
+
+
+
+# Scripting
+
+## try this in R
+```{r}
+library(dplyr)
+library(nycflights13)
+
+not_cancelled <- flights %>% 
+        filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled %>% 
+        group_by(year, month, day) %>% 
+        summarise(mean = mean(dep_delay))
+```
+
