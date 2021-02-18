@@ -1,0 +1,55 @@
+---
+title: "Installing R and R-studio"
+author: "help: favoretto.fabio@gmail.com"
+date: ""
+output: pdf_document
+---
+
+
+This tutorial will teach you step by step how to install a new version of R and R-studio on your laptop. 
+
+
+##Step 1: installing R
+
+Download R from http://cran.cnr.berkeley.edu/.
+\
+![From the webpage, select your Operative System: Linux, Mac or Windows](figs/tutorials/Download-R.png)
+\
+
+Select the **base** version, then click on the link "Download R for Windows"
+
+\
+![Click on the link](figs/tutorials/Download-R2.png)
+\
+
+Then you will be able to select the folder in which you wish to download the .exe file. A common choice is the "dowload" folder. 
+
+Once downloaded, select install and follow the guide in the installer. Leave all default settings in the installation options.
+
+
+
+#Step 2: installing R-studio
+
+Download R-studio from https://www.rstudio.com/products/rstudio/download/
+In the download page, **scroll down** until you see the list of different R-studio versions according to your OS. 
+Select the Windows one if you are using Windows
+
+
+\
+![Click on the green "download now" corresponding to the free plan of R-studio](figs/tutorials/Free.png)
+\
+
+Again you will be able to choose where to download the .exe installer.
+When download is ended double click on the .exe file and start the installation. 
+Follow the instruction on screen, just leave all settings in default. 
+
+
+#Step 3: try R-studio GUI
+
+You can now try the R-studio interface by double clicking on the blue icon. 
+
+
+#Step 4: ask for help
+If you experience any problem with the installation, feel free to write to favoretto.fabio@gmail.com for help. 
+
+

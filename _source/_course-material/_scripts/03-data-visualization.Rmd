@@ -1,0 +1,259 @@
+---
+title: "Data visualization"
+author: "Fabio Favoretto"
+date: "`r Sys.Date()`"
+output: 
+        ioslides_presentation:
+                logo: "figs/cropped-rstudio.png"
+                widescreen: true
+                incremental: true
+---
+
+## References and materials
+
+- Data viz by moderndive: https://moderndive.com/3-viz.html
+- Fundamentals of data visualization: https://serialmentor.com/dataviz/
+- Interactive animations: https://plotly-r.com/
+- Top 50 visualization with R: http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html
+- The R graph gallery: https://www.r-graph-gallery.com/
+- [Cheatsheet](cheatsheets/data-visualization-2.1.pdf)
+
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(eval=FALSE, warning = FALSE, message = FALSE)
+```
+
+
+## Needed packages
+
+```{r}
+library(nycflights13)
+library(ggplot2)
+library(dplyr)
+```
+
+## The grammar of graphics
+
+<div class="centered">
+Similarly to a linguistic grammar, “The Grammar of Graphics” (Wilkinson 2005) define a set of rules for constructing statistical graphics by combining different types of layers.
+</div>
+
+ 
+## It's all about the right question...
+
+There is no rule about which questions you should ask to guide your research. 
+
+However, two types of questions will always be useful for making discoveries within your data:
+
+- What type of variation occurs within my variables?
+
+- What type of covariation occurs between my variables?
+
+
+## What is a variable?
+
+
+- A **variable** is a quantity, quality, or property that you can measure.
+
+- A **value** is the state of a variable when you measure it. The value of a variable may change from measurement to measurement.
+
+- An **observation** is a set of measurements made under similar conditions.
+
+- **Tabular data** is a set of values, each associated with a variable and an observation.
+
+- Tabular data is **tidy** if each value is placed in its own “cell”, each variable in its own column, and each observation in its own row.
+
+## Tidy data 
+
+![From R for Data Science](figs/tidydata.jpg)
+
+
+## Components of the grammar 
+
+In short:
+
+<div class="centered">
+A statistical graphic is a `mapping` of `data` variables to `aes`thetic attributes of geometric objects.
+</div>
+
+Three essential components:
+
+- `data`: the data set composed of variables that we map.
+- `geom`: the geometric object in question. This refers to the type of object we can observe in a plot. For example: points, lines, and bars.
+- `aes`: aesthetic attributes of the geometric object. For example, x/y position, color, shape, and size. Each assigned aesthetic attribute can be mapped to a variable in our data set.
+
+## The GapMinder study case
+
+```{r}
+library(tidyverse)
+library(gapminder)
+ggplot(gapminder, aes(x=gdpPercap, y=lifeExp, col=continent, size=pop))+
+        geom_point()
+```
+
+## Let’s view this plot through the grammar of graphics:
+
+- The data variable GDP per Capita gets mapped to the `x`-position `aes`thetic of the points.
+- The data variable Life Expectancy gets mapped to the `y`-position `aes`thetic of the points.
+- The data variable Population gets mapped to the `size` `aes`thetic of the points.
+- The data variable Continent gets mapped to the `color` `aes`thetic of the points.
+
+
+## The big 5: 
+
+- **scatterplots**: x~y relationships
+- **linegraphs**: time series
+- **boxplots**: anova, data distribution among factors
+- **histograms**: data distribution
+- **barplots**: mean values of data
+
+
+## Scatterplots with `geom_points()`
+
+```{r}
+library(nycflights13)
+
+alaska_flights <- flights %>% filter(carrier == "AS")
+
+ggplot(data = alaska_flights, mapping = aes(x = dep_delay, y = arr_delay)) + 
+  geom_point()
+
+ggplot(data = alaska_flights, mapping = aes(x = dep_delay, y = arr_delay)) + 
+  geom_point(alpha = 0.2)
+
+ggplot(data = alaska_flights, mapping = aes(x = dep_delay, y = arr_delay)) + 
+  geom_jitter(width = 30, height = 30)
+
+```
+
+
+## Linegraphs with `geom_line`
+
+```{r}
+
+ggplot(data = weather , mapping = aes(x = time_hour, y = temp)) +
+  geom_line()
+
+early_january_weather <- weather %>% 
+  filter(origin == "EWR" & month == 1 & day <= 15)
+
+ggplot(data = early_january_weather, mapping = aes(x = time_hour, y = temp)) +
+  geom_line()
+
+```
+
+
+
+## Boxplots via `geom_boxplot()`
+
+```{r}
+ggplot(data = weather, mapping = aes(x = month, y = temp)) +
+  geom_boxplot()
+
+ggplot(data = weather, mapping = aes(x = factor(month), y = temp)) +
+  geom_boxplot()
+
+```
+
+
+
+
+
+## Histograms with `geom_histogram()`
+
+
+```{r}
+ggplot(data = weather, mapping = aes(x = temp)) +
+  geom_histogram()
+
+
+ggplot(data = weather, mapping = aes(x = temp)) +
+  geom_histogram(color = "white", fill = "steelblue")
+
+ggplot(data = weather, mapping = aes(x = temp)) +
+  geom_histogram(bins = 40, color = "white")
+
+```
+
+## Facets 
+
+```{r}
+ggplot(data = weather, mapping = aes(x = temp)) +
+  geom_histogram(binwidth = 5, color = "white") +
+  facet_wrap(~ month)
+```
+
+
+
+
+## A graph
+```{r}
+library(tidyverse)
+library(gapminder)
+
+sel_contries <- filter(gapminder, 
+                       country %in% 
+                         c("Mexico", "Italy", "Chile", 
+                           "Peru", "Canada", "France"))
+
+lifeExp_plot <- ggplot(data = sel_contries, 
+                       mapping = aes(x = year, y = lifeExp, color=continent)) +
+  geom_line() + 
+  facet_wrap( ~ country) +
+  labs(
+    x = "Year",              # x axis title
+    y = "Life expectancy",   # y axis title
+    title = "Figure 1",      # main title of figure
+    color = "Continent"      # title of legend
+  ) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+## How to save plots `ggsave()`
+
+```{r}
+
+ggsave(filename = "figs/lifeExp.png", 
+       plot = lifeExp_plot, 
+       width = 12, 
+       height = 10, 
+       dpi = 300, 
+       units = "cm")
+
+```
+
+Or you can create a ppt directly: 
+
+```{r}
+
+esquisse:::ggplot_to_ppt()# this is awesomeeee
+
+```
+
+## Cool addins
+```{r}
+esquisse::esquisser()
+
+colourpicker:::colourPickerAddin()
+
+colourpicker:::plotHelperAddin()
+
+```
+
+
+
+# Exercises 
+
+## Test yourself
+
+- Use GapMinder data to see how life expectancy changed over time
+
+## Fishing effort exercise
+
+- Find which **region** has the highest mean fishing effort in the Gulf
+- Find which **site** has the highest mean fishing effort in the Gulf
+- Which **site** has the lowest mean fishing effort?
+- Find which **region** has the highest standard deviation in fishing effort in the Gulf
+- Find which **site** has the highest number of pangas inside the highest **region** for fishing effort
+
+
