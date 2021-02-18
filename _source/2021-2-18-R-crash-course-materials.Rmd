@@ -16,21 +16,21 @@ categories:
 ---
 
 
-![Course scheme](_source/_course-material/figs/rdiag.png)
+![Course scheme](_course-material/_figs/rdiag.png)
 
 # Day 1
-# 1.1. [R-basics](_source/_course-material/pres/01-1-R-basics.html)
+# 1.1. [R-basics](_course-material/_pres/01-1-R-basics.html)
 
 - Course presentation; 
 - How to prepare a working directory (rules of good data science);
 - File names and type of data files;
-- [The R studio IDE](_source/_course-material/cheatsheets/rstudio-ide.pdf);
-- [Reading and Writing Data](_source/_course-material/cheatsheets/data-import.pdf);
+- [The R studio IDE](_course-material/_cheatsheets/rstudio-ide.pdf);
+- [Reading and Writing Data](_course-material/_cheatsheets/data-import.pdf);
 - Scripting; 
 - Packages (and GitHub);
 - Ask for help;
 
-# 1.2. [Workflow basics](_source/_course-material/pres/01-2-workflow-basics.html)
+# 1.2. [Workflow basics](_course-material/_pres/01-2-workflow-basics.html)
 
 - Using the console
 - Practice
@@ -38,9 +38,9 @@ categories:
 - Practice
 
 # Day 2
-# 2. [Data wrangling](_source/_course-material/pres/02-data-wrangling.html)
+# 2. [Data wrangling](_course-material/_pres/02-data-wrangling.html)
 
-- Welcome to the [`Tidyverse`](_source/_course-material/cheatsheets/data-transformation.pdf); 
+- Welcome to the [`Tidyverse`](_course-material/_cheatsheets/data-transformation.pdf); 
 - `filter()` #Pick observations by their values
 - `arrange()` #Reorder the rows
 - `select()` #Pick variables by their names
@@ -49,25 +49,25 @@ categories:
 - `group_by()` #which changes the scope of each function from the entire dataset to a group
 - saving data
 
-#### 2.1. [Fishing effort exercise 1](_source/_course-material/scripts/fishing-effort-excercise-1.R)
+#### 2.1. [Fishing effort exercise 1](_course-material/_scripts/fishing-effort-excercise-1.R)
 
-# 3. [Data visualization](_source/_course-material/pres/03-data-visualization.html)
+# 3. [Data visualization](_course-material/_pres/03-data-visualization.html)
 
-- Welcome to [ggplot2](_source/_course-material/cheatsheets/data-visualization-2.1.pdf)
+- Welcome to [ggplot2](_course-material/_cheatsheets/data-visualization-2.1.pdf)
 - Exploratory data analysis
 - Data visualization
 
-#### 3.1. [Fishing effort exercise 2](_source/_course-material/pres/fishing-effort-excercise-2.R)
+#### 3.1. [Fishing effort exercise 2](_course-material/_pres/fishing-effort-excercise-2.R)
 
 # Day 3
-# 4. [R-functions and iterations](_source/_course-material/04-iteration-purrr.html)
+# 4. [R-functions and iterations](_course-material/04-iteration-purrr.html)
 
 - R-functions and shortcuts; 
-- The [`purrr`](_source/_course-material/cheatsheets/data-transformation.pdf) package;
+- The [`purrr`](_course-material/_cheatsheets/data-transformation.pdf) package;
 
-# 5. [Knitting](_source/_course-material/pres/05-rmarkdown.html)
+# 5. [Knitting](_course-material/_pres/05-rmarkdown.html)
 
-- the [`rmarkdown`](_source/_course-material/cheatsheets/rmarkdown-2.0.pdf) package; 
+- the [`rmarkdown`](_course-material/_cheatsheets/rmarkdown-2.0.pdf) package; 
 
 
 ---
